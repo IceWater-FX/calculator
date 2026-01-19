@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lot Size Calculator Pro</title>
+    <style>
+        /* ========================================
+           BLOGGER OVERRIDE STYLES - REMOVE ALL SIDEBARS
+           ======================================== */
+        
+        /* Force body and html to be full-width */
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden !important;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e) !important;
+        }
+        
+        /* Force all parent containers to be visible and full-width */
+        div, section, main, article {
+            max-width: 100% !important;
+        }
+        
+        /* AGGRESSIVE SIDEBAR REMOVAL - Hide everything on left/right */
+        #sidebar,
+        #sidebar-wrapper,
+        #sidebar-left,
+        #sidebar-right,
+        .sidebar,
+        .sidebar-wrapper,
+        .sidebar-left,
+        .sidebar-right,
+        aside,
+        .widget,
+        .Widget,
+        #blog-pager,
+        .blog-pager,
+        .Archive,
+        .archive,
+        #HTML1, #HTML2, #HTML3, #HTML4, #HTML5, #HTML6, #HTML7, #HTML8, #HTML9,
+        #BlogArchive1, #BlogArchive2,
+        #Label1, #Label2,
+        #PopularPosts1,
+        .BlogArchive,
+        .Label,
+        .PopularPosts,
+        .Profile,
+        #Profile1,
+        nav,
+        .nav,
+        .navigation,
+        .blog-sidebar,
+        [class*="sidebar"],
+        [class*="Sidebar"],
+        [class*="archive"],
+        [class*="Archive"],
+        [id*="sidebar"],
+        [id*="Sidebar"],
+        [id*="archive"],
+        [id*="Archive"],
+        .column-left,
+        .column-right,
+        .left-column,
+        .right-column {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            opacity: 0 !important;
+        }
+        
+        /* Hide Blogger header */
+        #header,
+        #header-wrapper,
+        .header,
+        .Header,
+        .blog-header {
+            display: none !important;
+        }
+        
+        /* Hide Blogger footer */
+        #footer,
+        #footer-wrapper,
+        .footer,
+        footer,
+        .blog-feeds,
+        .feed-links,
+        #ArchiveList {
+            display: none !important;
+        }
+        
+        /* Force main content to be FULL WIDTH and CENTERED */
+        #main,
+        #main-wrapper,
+        .main,
+        .main-wrapper,
+        .content-wrapper,
+        #content-wrapper,
+        .post,
+        .post-body,
+        article,
+        .content-outer,
+        .content-inner,
+        .outer-wrapper,
+        .content,
+        #content,
+        .center-wrapper,
+        .blog-posts {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            float: none !important;
+            position: relative !important;
+            background: transparent !important;
+        }
+        
+        /* Remove any column layouts */
+        .columns,
+        .column,
+        [class*="col-"] {
+            width: 100% !important;
+        }
+        
+        /* ========================================
+           END OF BLOGGER OVERRIDES
+           ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e) !important;
+            min-height: 100vh;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 20px !important;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(20, 20, 40, 0.95);
+            border: 2px solid #00d4ff;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+            animation: fadeIn 0.5s ease-in;
+            margin: 0 auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.85em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00d4ff;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            color: #000;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            padding-top: 15px;
+            margin-top: 10px;
+            border-top: 2px solid #00d4ff;
+        }
+
+        .result-label {
+            color: #aaa;
+        }
+
+        .result-value {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .final-lot {
+            font-size: 1.4em;
+            color: #00d4ff;
+        }
+
+        .meme-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .meme-section.show {
+            display: block;
+        }
+
+        .meme-emoji {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .meme-text {
+            font-size: 1em;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 767px) {
+            .button-group {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+                padding: 45px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 700px;
+                padding: 50px 60px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💰 LOT SIZE CALCULATOR</h1>
+    <p class="subtitle">Professional Trading Risk Management</p>
+
+    <div class="form-group">
+        <label for="index">Forex Index</label>
+        <select id="index">
+            <option value="GER30">GER30</option>
+            <option value="NASS">NASS</option>
+            <option value="US30">US30</option>
+            <option value="SPX500">SPX500</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="capital">Capital ($)</label>
+        <input type="number" id="capital" value="5000" min="0" step="100">
+    </div>
+
+    <div class="form-group">
+        <label for="risk">Risk Percentage (%)</label>
+        <select id="risk">
+            <option value="0.5">0.5% (Conservative)</option>
+            <option value="1">1% (Moderate)</option>
+            <option value="1.5">1.5% (Aggressive)</option>
+            <option value="2">2% (Very Aggressive)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="slPoints">Stop Loss (Points)</label>
+        <input type="number" id="slPoints" placeholder="e.g., 50" min="0">
+    </div>
+
+    <div class="form-group">
+        <label for="contractSize">Contract Size</label>
+        <input type="number" id="contractSize" placeholder="e.g., 1" min="0" step="0.01">
+    </div>
+
+    <div class="button-group">
+        <button class="btn-calculate" onclick="calculateLotSize()">Calculate</button>
+        <button class="btn-reset" onclick="resetCalculator()">New Calculation</button>
+    </div>
+
+    <div class="result-section" id="resultSection">
+        <div class="result-item"><span class="result-label">Index:</span><span class="result-value" id="resultIndex">-</span></div>
+        <div class="result-item"><span class="result-label">Capital:</span><span class="result-value" id="resultCapital">-</span></div>
+        <div class="result-item"><span class="result-label">Risk %:</span><span class="result-value" id="resultRisk">-</span></div>
+        <div class="result-item"><span class="result-label">Risk Amount:</span><span class="result-value" id="resultRiskAmount">-</span></div>
+        <div class="result-item"><span class="result-label">Stop Loss:</span><span class="result-value" id="resultSL">-</span></div>
+        <div class="result-item"><span class="result-label">Contract Size:</span><span class="result-value" id="resultContract">-</span></div>
+        <div class="result-item"><span class="result-label">📊 FINAL LOT SIZE:</span><span class="result-value final-lot" id="resultLotSize">-</span></div>
+    </div>
+
+    <div class="meme-section" id="memeSection">
+        <div class="meme-emoji" id="memeEmoji">🚀</div>
+        <div class="meme-text" id="memeText">Trading wisdom loading...</div>
+    </div>
+
+    <!-- Credits Section -->
+    <div style="margin-top: 30px; text-align: center; padding: 20px; border-top: 1px solid rgba(0, 212, 255, 0.2);">
+        <p style="color: #666; font-size: 0.85em; margin-bottom: 5px;">Developed by</p>
+        <p style="color: #00d4ff; font-weight: bold; font-size: 1em;">supreme0010 / AKA #IceWater</p>
+        <p style="color: #888; font-size: 0.75em; margin-top: 5px;">💎 Professional Lot Size Calculator</p>
+    </div>
+</div>
+
+<script>
+const tradingMemes = [
+    { emoji: "🎯", text: "Respect your stop loss!" },
+    { emoji: "💎", text: "Risk management > Strategy." },
+    { emoji: "🚀", text: "Small risk, long journey." },
+    { emoji: "🧠", text: "Discipline beats emotion." },
+    { emoji: "⚠️", text: "Overleveraging kills accounts." },
+    { emoji: "📊", text: "Math > Feelings in trading." },
+    { emoji: "💰", text: "Compound gains beat YOLO trades." },
+    { emoji: "🎲", text: "Trading isn't gambling with proper risk!" },
+    { emoji: "🔥", text: "Ignored your risk %? Account goes boom." },
+    { emoji: "🛡️", text: "Stop loss is your armor!" }
+];
+
+function calculateLotSize() {
+    const index = document.getElementById('index').value;
+    const capital = parseFloat(document.getElementById('capital').value);
+    const riskPercent = parseFloat(document.getElementById('risk').value);
+    const slPoints = parseFloat(document.getElementById('slPoints').value);
+    const contractSize = parseFloat(document.getElementById('contractSize').value);
+
+    if (!capital || !slPoints || !contractSize) {
+        alert('Please fill in all fields!');
+        return;
+    }
+
+    if (slPoints <= 0 || contractSize <= 0 || capital <= 0) {
+        alert('Values must be greater than zero!');
+        return;
+    }
+
+    // CORE CALCULATION - DO NOT MODIFY
+    const riskAmount = capital * (riskPercent / 100);
+    const intermediateValue = slPoints / riskPercent;
+    const lotSize = contractSize / intermediateValue;
+
+    document.getElementById('resultIndex').textContent = index;
+    document.getElementById('resultCapital').textContent = `$${capital.toFixed(2)}`;
+    document.getElementById('resultRisk').textContent = `${riskPercent}%`;
+    document.getElementById('resultRiskAmount').textContent = `$${riskAmount.toFixed(2)}`;
+    document.getElementById('resultSL').textContent = `${slPoints} points`;
+    document.getElementById('resultContract').textContent = contractSize;
+    document.getElementById('resultLotSize').textContent = lotSize.toFixed(4);
+
+    document.getElementById('resultSection').classList.add('show');
+    showRandomMeme();
+}
+
+function showRandomMeme() {
+    const random = tradingMemes[Math.floor(Math.random() * tradingMemes.length)];
+    document.getElementById('memeEmoji').textContent = random.emoji;
+    document.getElementById('memeText').textContent = random.text;
+    document.getElementById('memeSection').classList.add('show');
+}
+
+function resetCalculator() {
+    document.getElementById('index').value = 'GER30';
+    document.getElementById('capital').value = '5000';
+    document.getElementById('risk').value = '0.5';
+    document.getElementById('slPoints').value = '';
+    document.getElementById('contractSize').value = '';
+    document.getElementById('resultSection').classList.remove('show');
+    document.getElementById('memeSection').classList.remove('show');
+}
+
+document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        calculateLotSize();
+    }
+});
+</script>
+
+</body>
+</html>
